@@ -1,0 +1,81 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <title>Informe Diario - Banco América</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 700px;
+            margin: 40px auto;
+        }
+
+        h1 {
+            color: #003366;
+        }
+
+        button {
+            padding: 8px 16px;
+            background-color: #003366;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+            button:hover {
+                background-color: #00509e;
+            }
+
+        #resultado {
+            margin-top: 24px;
+            padding: 12px;
+            border: 1px solid #ccc;
+            background-color: #f5f5f5;
+            white-space: pre-wrap;
+        }
+    </style>
+</head>
+<body>
+    <h1>Informe Diario – Envío a la Superintendencia de Bancos</h1>
+
+    <p>
+        Al presionar <strong>Generar y enviar informe</strong>,
+        el sistema generará un archivo CSV con la fecha y hora actuales,
+        lo enviará por FTP al servidor de la Superintendencia
+        (simulado con FileZilla Server) y mostrará el resultado en pantalla.
+    </p>
+
+    <form id="formInforme" method="post" action="/enviar">
+        <button type="submit">Generar y enviar informe</button>
+    </form>
+
+    <div id="resultado">
+        Esperando envío...
+    </div>
+
+    <script>
+        const form = document.getElementById("formInforme");
+        const resultadoDiv = document.getElementById("resultado");
+
+        form.addEventListener("submit", async function (e) {
+            e.preventDefault();
+
+            resultadoDiv.textContent = "Procesando, por favor espere...";
+
+            const formData = new FormData(form); // vacío, pero válido
+
+            try {
+                const response = await fetch("/enviar", {
+                    method: "POST",
+                    body: formData
+                });
+
+                const texto = await response.text();
+                resultadoDiv.textContent = texto;
+            } catch (err) {
+                resultadoDiv.textContent = "Error al contactar el servidor: " + err;
+            }
+        });
+    </script>
+</body>
+</html>
