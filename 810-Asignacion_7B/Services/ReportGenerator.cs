@@ -20,14 +20,12 @@ namespace _810_Asignacion_7B.Services
         {
             Directory.CreateDirectory(_settings.CarpetaLocal);
 
-            // Fecha y hora actuales
             DateTime ahora = DateTime.Now;
 
             string nombreArchivo = $"InformeDiario_{ahora:yyyy-MM-dd_HH-mm}.csv";
             string rutaCompleta = Path.Combine(_settings.CarpetaLocal, nombreArchivo);
 
-            // SIMULAMOS el contenido del informe
-            var lineas = new List<string>
+            var datosEjemplo = new List<string>
             {
                 "Fecha;Cuenta;Descripcion;Monto",
                 $"{ahora:yyyy-MM-dd};100-001;Depósito nómina;150000.00",
@@ -35,9 +33,9 @@ namespace _810_Asignacion_7B.Services
                 $"{ahora:yyyy-MM-dd};300-777;Comisión bancaria;-1500.00"
             };
 
-            await File.WriteAllLinesAsync(rutaCompleta, lineas);
+            await File.WriteAllLinesAsync(rutaCompleta, datosEjemplo);
 
-            return rutaCompleta; // Devolvemos la ruta del archivo generado
+            return rutaCompleta;
         }
     }
 }

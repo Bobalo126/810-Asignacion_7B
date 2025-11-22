@@ -3,7 +3,7 @@ using _810_Asignacion_7B.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Configuración desde appsettings.json
+// Cargar config
 builder.Configuration
     .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
 
@@ -23,7 +23,6 @@ builder.Services.AddScoped<IFtpService, FtpService>();
 
 var app = builder.Build();
 
-// Servir index.html desde wwwroot
 app.UseDefaultFiles();
 app.UseStaticFiles();
 
@@ -34,11 +33,11 @@ app.MapPost("/enviar", async (
 {
     try
     {
-        // 1. Generar el archivo CSV (fecha/hora actual)
+        //Generar el archivo CSV
         string rutaLocal = await reportGenerator.GenerarInformeAsync();
         string nombreArchivo = Path.GetFileName(rutaLocal);
 
-        // 2. Enviar por FTP
+        //Enviar por FTP
         await ftpService.SubirArchivoAsync(rutaLocal, nombreArchivo);
 
         string mensaje = $"Se generó y envió por FTP el archivo {nombreArchivo} correctamente.";

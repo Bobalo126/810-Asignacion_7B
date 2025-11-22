@@ -2,6 +2,6 @@
 {
     public class InformeSettings
     {
-        public string CarpetaLocal { get; set; } = string.Empty; // C:\InformesSuperintendencia\
+        public string CarpetaLocal { get; set; } = string.Empty;
     }
 }
